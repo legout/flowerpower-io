@@ -350,7 +350,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="https://github.com/legout/flowerpower-io"> <i class="bi bi-github" role="img">
 </i> 
-<span class="menu-text">GitHub</span></a>
+<span class="menu-text">legout/flowerpower-io</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://pypi.org/project/flowerpower-io/"> <i class="bi bi-box-arrow-down" role="img">
+</i> 
+<span class="menu-text">flowerpower-io</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -542,8 +547,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="csv-loader-csvfilereader">CSV Loader (<code>CSVFileReader</code>)</h3>
 <p>The <code>CSVFileReader</code> allows you to easily load data from a CSV file.</p>
 <div id="0daf96cf" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flowerpower_io.loader <span class="im">import</span> CSVFileReader</span>
@@ -561,15 +564,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>os.remove(dummy_csv_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="json-loader-jsonfilereader" class="level3">
 <h3 class="anchored" data-anchor-id="json-loader-jsonfilereader">JSON Loader (<code>JsonFileReader</code>)</h3>
 <p>The <code>JsonFileReader</code> is used to load data from JSON files.</p>
 <div id="ff5cd964" class="cell" data-execution_count="2">
-<details class="code-fold">
-<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flowerpower_io.loader <span class="im">import</span> JsonFileReader</span>
@@ -595,7 +595,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up</span></span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>os.remove(dummy_json_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="sqlite-loader-sqlitereader" class="level3">

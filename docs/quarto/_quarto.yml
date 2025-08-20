@@ -29,7 +29,11 @@ website:
     right:
       - href: https://github.com/legout/flowerpower-io
         icon: github
-        text: GitHub
+        text: legout/flowerpower-io
+      - href: https://pypi.org/project/flowerpower-io/
+        icon:  box-arrow-down
+        text: flowerpower-io
+        
   sidebar:
     #style: "docked"
     contents:
@@ -64,6 +68,6 @@ format:
       dark: darkly
     theme-toggle: true
     toc: true
-    code-fold: true
+    code-fold: false
     code-summary: "Show the code"
     smooth-scroll: true

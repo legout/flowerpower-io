@@ -1,7 +1,7 @@
 site_name: flowerpower-io Documentation
-site_url: https://flowerpower-io.github.io/flowerpower-io/
-repo_url: https://github.com/flowerpower-io/flowerpower-io
-repo_name: flowerpower-io/flowerpower-io
+site_url: https://legout.github.io/flowerpower-io/
+repo_url: https://github.com/legout/flowerpower-io
+repo_name: legout/flowerpower-io
 
 theme:
   name: material

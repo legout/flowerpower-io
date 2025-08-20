@@ -1,12 +1,12 @@
 [project]
 name = "flowerpower-io"
-version = "0.1.0"
+version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
 authors = [
     { name = "legout", email = "ligno.blades@gmail.com" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "fsspec-utils[full]>=0.1.5",
     "adbc-driver-manager>=1.4.0",
@@ -24,6 +24,9 @@ dependencies = [
     "sqlalchemy>=2.0.30",
     "msgspec>=0.19.0",
 ]
+[project.urls]
+homepage = "https://legout.readthedocs.io/flowerpower-io"
+repository = "https://github.com/legout/flowerpower-io"
 
 [project.optional-dependencies]
 legacy = [

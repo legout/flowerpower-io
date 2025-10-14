@@ -7,7 +7,6 @@ from .mysql import MySQLReader
 from .oracle import OracleDBReader
 from .parquet import ParquetDatasetReader, ParquetFileReader
 from .postgres import PostgreSQLReader
-from .pydala import PydalaDatasetReader
 from .sqlite import SQLiteReader
 
 __all__ = [
@@ -23,6 +22,5 @@ __all__ = [
     "ParquetFileReader",
     "ParquetDatasetReader",
     "PostgreSQLReader",
-    "PydalaDatasetReader",
     "SQLiteReader",
 ]

@@ -7,7 +7,6 @@ from .mysql import MySQLWriter
 from .oracle import OracleDBWriter
 from .parquet import ParquetDatasetWriter, ParquetFileWriter
 from .postgres import PostgreSQLWriter
-from .pydala import PydalaDatasetWriter
 from .sqlite import SQLiteWriter
 
 __all__ = [
@@ -23,6 +22,5 @@ __all__ = [
     "ParquetFileWriter",
     "ParquetDatasetWriter",
     "PostgreSQLWriter",
-    "PydalaDatasetWriter",
     "SQLiteWriter",
 ]

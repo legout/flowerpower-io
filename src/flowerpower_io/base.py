@@ -1,6 +1,6 @@
 import importlib
 import posixpath
-from typing import Any, Generator
+from typing import Any, Generator, Union
 
 if importlib.util.find_spec("datafusion"):
     import datafusion
@@ -14,7 +14,6 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.dataset as pds
 from msgspec import field
-from pydala.dataset import ParquetDataset
 from sqlalchemy import create_engine, text
 
 from fsspec_utils import filesystem as get_filesystem, AbstractFileSystem
@@ -1346,7 +1345,7 @@ class BaseDatasetReader(BaseFileReader, gc=False):
 
     def to_pydala_dataset(
         self, metadata: bool = False, reload: bool = False, **kwargs
-    ) -> ParquetDataset | tuple[ParquetDataset, dict[str, Any]]:  # type: ignore
+    ) -> Union["ParquetDataset", tuple["ParquetDataset", dict[str, Any]]]:  # type: ignore
         """Convert data to Pydala ParquetDataset.
 
         Args:
@@ -1355,15 +1354,19 @@ class BaseDatasetReader(BaseFileReader, gc=False):
         Returns:
             ParquetDataset: Pydala ParquetDataset.
         """
-        if ParquetDataset is None:
-            raise ImportError("pydala is not installed.")
+        try:
+            from pydala.dataset import ParquetDataset
+        except ImportError:
+            raise ImportError("Pydala2 is not installed.")
+
         if not hasattr(self, "_pydala_dataset") or reload:
             if not hasattr(self, "conn"):
                 self._ddb_con = duckdb.connect()
-            self._pydala_dataset = self.fs.pydala_dataset(
+            self._pydala_dataset = ParquetDataset(
                 self._path,
                 partitioning=self.partitioning,
                 ddb_con=self._ddb_con,
+                filesystem=self.fs,
                 **kwargs,
             )
             self._pydala_dataset.load(update_metadata=True)
@@ -1838,13 +1841,21 @@ class BaseDatasetWriter(BaseFileWriter, gc=False):
                 **kwargs,
             )
         else:
-            self.fs.write_pydala_dataset(
+            try:
+                from pydala.dataset import ParquetDataset
+            except ImportError:
+                raise ImportError("Pydala2 is not installed.")
+
+            ds = ParquetDataset(
+                self._path,
+                filesystem=self.fs,
+                partitioning=partition_by or self.partition_by,
+            )
+            ds.write_to_dataset(
                 data=data,  # if data is not None else self.data,
-                path=self._path,
                 mode=mode or self.mode,
                 basename=basename or self.basename,
                 schema=schema or self.schema_,
-                partition_by=partition_by or self.partition_by,
                 compression=compression or self.compression,
                 row_group_size=row_group_size or self.row_group_size,
                 max_rows_per_file=max_rows_per_file or self.max_rows_per_file,

@@ -21,9 +21,14 @@ from fsspec_utils import filesystem as get_filesystem, AbstractFileSystem
 from fsspec_utils.utils.misc import path_to_glob
 from fsspec_utils.utils.types import dict_to_dataframe, to_pyarrow_table
 from fsspec_utils.utils.pyarrow import convert_large_types_to_normal
-from fsspec_utils.storage_options import (AwsStorageOptions, AzureStorageOptions,
-                                          GcsStorageOptions, GitHubStorageOptions,
-                                          GitLabStorageOptions, StorageOptions)
+from fsspec_utils.storage_options import (
+    AwsStorageOptions,
+    AzureStorageOptions,
+    GcsStorageOptions,
+    GitHubStorageOptions,
+    GitLabStorageOptions,
+    StorageOptions,
+)
 
 from fsspec_utils.utils.polars import pl
 from fsspec_utils.utils.sql import sql2polars_filter, sql2pyarrow_filter
@@ -80,9 +85,9 @@ class BaseFileIO(msgspec.Struct, gc=False):
     # _rel_path: str | list[str] | None = field(default=None)
     # _glob_path
     _metadata: dict[str, Any] | None = field(default=None)
-    _data: pa.Table | pl.DataFrame | pl.LazyFrame | pd.DataFrame | dict | list[dict] | None = field(
-        default=None
-    )
+    _data: (
+        pa.Table | pl.DataFrame | pl.LazyFrame | pd.DataFrame | dict | list[dict] | None
+    ) = field(default=None)
     _ddb_con: duckdb.DuckDBPyConnection | None = field(default=None)
     _dtf_ctx: datafusion.SessionContext | None = field(default=None)
 
@@ -92,8 +97,8 @@ class BaseFileIO(msgspec.Struct, gc=False):
         # if self.fs is None:
         self.fs = get_filesystem(
             protocol_or_path=self._base_path,
-            storage_options=self.storage_options,
-            fs=self.fs,
+            storage_options=self.storage_options if self.fs is None else None,
+            base_fs=self.fs,
             dirfs=True,
         )
 
@@ -1496,7 +1501,9 @@ class BaseDatasetReader(BaseFileReader, gc=False):
                 ctx = datafusion.SessionContext()
             self._dtf_ctx = ctx
 
-        self._dtf_ctx.register_record_batches(name, [self.to_pyarrow_table().to_batches()])
+        self._dtf_ctx.register_record_batches(
+            name, [self.to_pyarrow_table().to_batches()]
+        )
 
     def filter(
         self, filter_expr: str | pl.Expr | pa.compute.Expression
@@ -1905,9 +1912,9 @@ class BaseDatabaseIO(msgspec.Struct, gc=False):
     ssl: bool = field(default=False)
     connection_string: str | None = field(default=None)
     _metadata: dict[str, Any] = field(default_factory=dict)
-    _data: pa.Table | pl.DataFrame | pl.LazyFrame | pd.DataFrame | dict | list[dict] | None = field(
-        default=None
-    )
+    _data: (
+        pa.Table | pl.DataFrame | pl.LazyFrame | pd.DataFrame | dict | list[dict] | None
+    ) = field(default=None)
     _ddb_con: duckdb.DuckDBPyConnection | None = field(default=None)
     _dtf_ctx: datafusion.SessionContext | None = field(default=None)
 
@@ -1917,13 +1924,15 @@ class BaseDatabaseIO(msgspec.Struct, gc=False):
             db in ["postgres", "mysql", "mssql", "oracle"]
             and not self.connection_string
         ):
-            if not all([
-                self.username,
-                self.password,
-                self.server,
-                self.port,
-                self.database,
-            ]):
+            if not all(
+                [
+                    self.username,
+                    self.password,
+                    self.server,
+                    self.port,
+                    self.database,
+                ]
+            ):
                 raise ValueError(
                     f"{self.type_} requires connection_string or username, password, server, port, and table_name "
                     "to build it."
@@ -2509,7 +2518,9 @@ class BaseDatabaseReader(BaseDatabaseIO, gc=False):
 
         self._load(query=query, reload=reload, **kwargs)
 
-        self._dtf_ctx.register_record_batches(name, [self.to_pyarrow_table().to_batches()])
+        self._dtf_ctx.register_record_batches(
+            name, [self.to_pyarrow_table().to_batches()]
+        )
 
     @property
     def metadata(self):

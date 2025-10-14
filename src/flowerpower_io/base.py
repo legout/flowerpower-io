@@ -129,7 +129,7 @@ class BaseFileIO(msgspec.Struct, gc=False):
         if self.format in base_path:
             base_path = posixpath.dirname(base_path).rstrip("/")
 
-        return base_path
+        return base_path.rstrip("/") + "/"
 
     @property
     def _path(self) -> str | list[str]:

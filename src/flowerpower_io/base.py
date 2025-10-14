@@ -1859,7 +1859,6 @@ class BaseDatasetWriter(BaseFileWriter, gc=False):
                 compression=compression or self.compression,
                 row_group_size=row_group_size or self.row_group_size,
                 max_rows_per_file=max_rows_per_file or self.max_rows_per_file,
-                concat=concat or self.concat,
                 unique=unique or self.unique,
                 delta_subset=delta_subset,
                 alter_schema=alter_schema,

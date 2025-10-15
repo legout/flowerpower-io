@@ -676,7 +676,7 @@ wheels = [
 
 [[package]]
 name = "flowerpower-io"
-version = "0.1.6.1"
+version = "0.1.6.2"
 source = { editable = "." }
 dependencies = [
     { name = "adbc-driver-manager" },
@@ -858,7 +858,7 @@ wheels = [
 
 [[package]]
 name = "fsspec-utils"
-version = "0.2.5.5"
+version = "0.2.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fsspec" },
@@ -874,9 +874,9 @@ dependencies = [
     { name = "rich" },
     { name = "sqlglot" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/41/b2/418247d67b0489e8de8a5b4db73f3a8a62106840c0892690c0f5e903e48f/fsspec_utils-0.2.5.5.tar.gz", hash = "sha256:ca89fb8935ae2fb79fb356da09bf570441a1638e73379b2c9f5c40778a3321c0", size = 44335474, upload-time = "2025-09-26T21:34:58.459Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/db/fe/b2db9755070e624ac07b68b97c114220af0502d50f5eb064a911b46a5b2e/fsspec_utils-0.2.6.tar.gz", hash = "sha256:d5c5526f52379777f01465a97eb6e41d074c916b8018e3746c0ab394370d3973", size = 44337724, upload-time = "2025-10-14T14:20:50.264Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3e/9d/7b9ad00facbf2cc1aaeb553713a34ac8f9801d51b39cd5511dd2dceb116d/fsspec_utils-0.2.5.5-py3-none-any.whl", hash = "sha256:858ba8f9639df81919ac0dc8bc0474762b3b02fe7436f642c06c7e323b7fe677", size = 61718, upload-time = "2025-09-26T21:34:54.242Z" },
+    { url = "https://files.pythonhosted.org/packages/ed/0f/39bda638ea151e601de49c3895201e6d82f1bb29ea5fe942c657ecc2ae4e/fsspec_utils-0.2.6-py3-none-any.whl", hash = "sha256:6c382eb7c3e6e615e59bbf92796c71c9cae48da8530d8951d4e040613a920505", size = 63339, upload-time = "2025-10-14T14:20:47.802Z" },
 ]
 
 [[package]]
@@ -2031,7 +2031,7 @@ wheels = [
 
 [[package]]
 name = "pydala2"
-version = "0.22.0"
+version = "0.22.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "brotli" },
@@ -2051,9 +2051,9 @@ dependencies = [
     { name = "sqlparse" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/cc/97/058c13ad07ad43062005929e62f666d3ccf14d645fe9ad23095d8bb0c9ba/pydala2-0.22.0.tar.gz", hash = "sha256:018811c6deebe858e66e9352a81376176f1fd1713f43667a8c811248a933cd3d", size = 411816, upload-time = "2025-10-14T09:28:15.008Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/39/82/2c2d696409ef5347ae128c37e24b1677a8522c4505aa4e8b0ec708246995/pydala2-0.22.2.tar.gz", hash = "sha256:2e3b3d9951ae33f75bf0fd3718fe483c48540590bf1a81082f5a2b4983a23462", size = 411945, upload-time = "2025-10-14T12:22:01.182Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b1/fc/a02302f5bcb6dd0dfa4b5bc87333af56f64c1a525b95bee2827f7d659b3c/pydala2-0.22.0-py3-none-any.whl", hash = "sha256:6a4949ad1d0da7ee85472a9cbc5e83133402dcd47939c2dab33beedd75b945fa", size = 68815, upload-time = "2025-10-14T09:28:13.7Z" },
+    { url = "https://files.pythonhosted.org/packages/ce/c2/387f72cd6250153daeabfe9d24ca72238587a0616cc3a86bfe3490693c73/pydala2-0.22.2-py3-none-any.whl", hash = "sha256:12cee186213612d3066a36cbbfabf2a5beccea3c1893fc44c046e4b7e35794ee", size = 69002, upload-time = "2025-10-14T12:22:00.186Z" },
 ]
 
 [[package]]

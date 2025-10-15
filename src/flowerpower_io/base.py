@@ -7,7 +7,8 @@ if importlib.util.find_spec("datafusion"):
 else:
     raise ImportError("To use this module, please install `flowerpower[io]`.")
 import sqlite3
-
+import os
+from pathlib import PurePosixPath
 import duckdb
 import msgspec
 import pandas as pd
@@ -16,6 +17,7 @@ import pyarrow.dataset as pds
 from msgspec import field
 from sqlalchemy import create_engine, text
 
+from fsspec.core import split_protocol
 from fsspec_utils import filesystem as get_filesystem, AbstractFileSystem
 from fsspec_utils.utils.misc import path_to_glob
 from fsspec_utils.utils.types import dict_to_dataframe, to_pyarrow_table
@@ -32,6 +34,43 @@ from fsspec_utils.storage_options import (
 from fsspec_utils.utils.polars import pl
 from fsspec_utils.utils.sql import sql2polars_filter, sql2pyarrow_filter
 from .metadata import get_dataframe_metadata, get_pyarrow_dataset_metadata
+
+
+def strip_protocol(path: Union[str, list[str]]) -> Union[str, list[str]]:
+    if isinstance(path, list):
+        return [split_protocol(p)[1] for p in path]
+    return split_protocol(path)[1]
+
+
+def remove_matching_subpath(
+    path_a: Union[str, os.PathLike], path_b: Union[str, os.PathLike]
+) -> str:
+    def to_anchor_and_parts(path) -> tuple[str, list[str]]:
+        posix = PurePosixPath(os.fspath(path).replace("\\", "/"))
+        anchor = posix.anchor
+        parts = list(posix.parts[1:] if anchor else posix.parts)
+        return anchor, parts
+
+    anchor_a, parts_a = to_anchor_and_parts(path_a)
+    _, parts_b = to_anchor_and_parts(path_b)
+
+    if parts_a and parts_b:
+        subpaths = {
+            tuple(parts_b[i:j])
+            for i in range(len(parts_b))
+            for j in range(i + 1, len(parts_b) + 1)
+        }
+        for i in range(len(parts_a)):
+            for length in range(min(len(parts_a) - i, len(parts_b)), 0, -1):
+                if tuple(parts_a[i : i + length]) in subpaths:
+                    parts_a = parts_a[:i] + parts_a[i + length :]
+                    i = len(parts_a)  # force outer loop exit
+                    break
+
+    joined = "/".join(parts_a)
+    posix_out = (anchor_a or "") + joined if joined else (anchor_a or "")
+    sep = "\\" if "\\" in os.fspath(path_a) else "/"
+    return posix_out.replace("/", sep)
 
 
 # @attrs.define # Removed
@@ -135,24 +174,26 @@ class BaseFileIO(msgspec.Struct, gc=False):
         if self.fs.protocol == "dir":
             if isinstance(self.path, list):
                 return [
-                    p.replace(self._base_path.lstrip("/"), "").lstrip("/")
+                    remove_matching_subpath(p, self._base_path).lstrip("/")
                     for p in self.path
                 ]
             else:
-                return self.path.replace(self._base_path.lstrip("/"), "").lstrip("/")
-        return self.path
+                return remove_matching_subpath(
+                    strip_protocol(self.path), self._base_path
+                ).lstrip("/")
+        return strip_protocol(self.path)
 
     @property
     def _glob_path(self) -> str | list[str]:
         if isinstance(self._path, list):
-            return self._path
-        return path_to_glob(self._path, self.format)
+            return strip_protocol(self._path)
+        return path_to_glob(strip_protocol(self._path), self.format)
 
-    @property
-    def _root_path(self) -> str:
-        if self.fs.protocol == "dir":
-            return self._base_path.replace(self.fs.path, "")
-        return self._base_path
+    # @property
+    # def _root_path(self) -> str:
+    #     if self.fs.protocol == "dir":
+    #         return strip_protocol(self._base_path.replace(self.fs.path, "")).rstrip("/")
+    #     return strip_protocol(self._base_path).rstrip("/")
 
     def list_files(self) -> list[str]:
         if isinstance(self._path, list):
@@ -1234,9 +1275,9 @@ class BaseDatasetReader(BaseFileReader, gc=False):
                 self._dataset, path=self.path, format=self.format
             )
         elif self.format == "parquet":
-            if self.fs.exists(posixpath.join(self._root_path, "_metadata")):
-                self._dataset = self.fs.parquet_dataset(
-                    posixpath.join(self._root_path, "_metadata"),
+            if self.fs.exists(posixpath.join(self._path, "_metadata")):
+                self._dataset = self.fs.pyarrow_parquet_dataset(
+                    posixpath.join(self._path, "_metadata"),
                     schema=self.schema_,
                     partitioning=self.partitioning,
                     **kwargs,

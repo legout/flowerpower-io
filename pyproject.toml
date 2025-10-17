@@ -1,12 +1,12 @@
 [project]
 name = "flowerpower-io"
-version = "0.1.6.3"
+version = "0.1.6.4"
 description = "Add your description here"
 readme = "README.md"
 authors = [{ name = "legout", email = "ligno.blades@gmail.com" }]
 requires-python = ">=3.11"
 dependencies = [
-    "fsspec-utils[full]>=0.1.5",
+    "fsspec-utils>=0.1.5",
     "adbc-driver-manager>=1.4.0",
     "aiosqlite>=0.21.0",
     "datafusion>=43.1.0",
@@ -15,8 +15,8 @@ dependencies = [
     "orjson>=3.10.12",
     "pandas>=2.2.3",
     "polars>=1.15.0",
-    'pyarrow>=18.1.0',
-    'pydala2>=0.9.4.5',
+    "pyarrow>=18.1.0",
+    "pydala2>=0.9.4.5",
     "redis>=5.2.1",
     "sherlock>=0.4.1",
     "sqlalchemy>=2.0.30",
